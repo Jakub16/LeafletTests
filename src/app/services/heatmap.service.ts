@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as L from "leaflet";
+import 'leaflet.heat';
 import { MarkerService } from "./marker.service";
 
 @Injectable({

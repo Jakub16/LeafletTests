@@ -2,9 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import * as L from 'leaflet';
 import { PopupService } from "./popup.service";
-import 'leaflet.markercluster';
-import 'leaflet.heat';
-import {LatLng} from "leaflet";
+import { LatLng } from "leaflet";
+import {MarkerClusterService} from "./marker-cluster.service";
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +12,8 @@ export class MarkerService {
   private capitals: string = '/assets/data/usa-capitals.geojson';
   private markers: LatLng[] = [];
   constructor(private http: HttpClient,
-              private popupService: PopupService) { }
+              private popupService: PopupService,
+              private markerClusterService: MarkerClusterService) { }
 
   static scaledRadius(val: number, maxVal: number) {
     return 20 * (val / maxVal);
@@ -33,7 +33,7 @@ export class MarkerService {
   }
 
   makeCapitalCircleMarkers(map: L.Map) {
-    let layerGroup = L.layerGroup();
+    const layerGroup = L.layerGroup();
 
     this.http.get(this.capitals).subscribe((data: any) => {
       const maxPopulation = Math.max(...data.features.map((item: { properties: { population: any; }; }) => item.properties.population, 0))
@@ -48,8 +48,7 @@ export class MarkerService {
         circle.bindPopup(this.popupService.createCapitalPopup(city.properties));
         circle.addTo(layerGroup);
       }
-
-      map.addLayer(layerGroup);
+      this.markerClusterService.createCluster(map, layerGroup);
     })
   }
 

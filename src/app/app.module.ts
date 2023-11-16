@@ -5,8 +5,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MapComponent } from './map/map.component';
 import { HttpClientModule } from "@angular/common/http";
-import { MarkerService } from "./marker.service";
-import { PopupService } from "./popup.service";
+import { MarkerService } from "./services/marker.service";
+import { PopupService } from "./services/popup.service";
 
 @NgModule({
   declarations: [

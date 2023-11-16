@@ -1,8 +1,8 @@
 import {ChangeDetectionStrategy, Component, OnChanges, SimpleChanges} from '@angular/core';
 import * as L from 'leaflet';
-import {MarkerService} from "../marker.service";
-import {HeatmapService} from "../heatmap.service";
-import {MarkerClusterService} from "../marker-cluster.service";
+import {MarkerService} from "../services/marker.service";
+import {HeatmapService} from "../services/heatmap.service";
+import {MarkerClusterService} from "../services/marker-cluster.service";
 
 const iconRetinaUrl = 'assets/marker-icon-2x.png';
 const iconUrl = 'assets/marker-icon.png';
@@ -46,8 +46,8 @@ export class MapComponent implements OnChanges{
   }
   ngAfterViewInit() {
     this.initMap();
+    //const markers = this.markerService.makeCapitalCircleMarkers(this.map);
     this.markerService.makeCapitalCircleMarkers(this.map);
-    this.markerClusterService.createCluster(this.map);
     this.heatmapService.createHeatmapLayer(this.map);
 
     this.map.on('zoomend', () => {
